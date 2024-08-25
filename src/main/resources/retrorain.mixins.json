@@ -1,0 +1,14 @@
+{
+    "required": true,
+    "minVersion": "0.8",
+    "package": "com.lnatit.retrorain.mixin",
+    "compatibilityLevel": "JAVA_17",
+    "refmap": "retrorain.refmap.json",
+    "client": [
+        "client.RetroRainMixinLevel",
+        "client.RetroRainMixinLevelRenderer"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}
