@@ -129,8 +129,8 @@ configurations {
 dependencies {
     // tetracord
 //    implementation "maven.modrinth:ltXwBzVu:1.21+1.0.3"
-    clientModulesOnly "maven.modrinth:AANobbMI:mc1.21-0.6.0-beta.1-neoforge"
-    clientModulesOnly "maven.modrinth:YL57xq9U:1.8.0-beta.2+1.21-neoforge"
+    implementation "maven.modrinth:AANobbMI:mc1.21-0.6.0-beta.1-neoforge"
+    implementation "maven.modrinth:YL57xq9U:1.8.0-beta.2+1.21-neoforge"
 
     // Example optional mod dependency with JEI
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime

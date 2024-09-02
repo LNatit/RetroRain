@@ -1,6 +1,7 @@
 package com.lnatit.retrorain;
 
 import com.lnatit.retrorain.content.RainManager;
+import com.lnatit.retrorain.data.DataRegistry;
 import com.lnatit.retrorain.particle.ParticleRegistry;
 import com.lnatit.retrorain.particle.RainDropParticle;
 import com.lnatit.retrorain.particle.RainParticle;
@@ -9,7 +10,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import org.slf4j.Logger;
 
@@ -22,6 +22,7 @@ public class RetroRain
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public RetroRain(IEventBus modBus) {
+        DataRegistry.DATA_TYPES.register(modBus);
     }
 
     @Mod(value = MOD_ID, dist = Dist.CLIENT)

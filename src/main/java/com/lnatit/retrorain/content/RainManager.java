@@ -1,7 +1,5 @@
 package com.lnatit.retrorain.content;
 
-import com.llamalad7.mixinextras.sugar.Local;
-import com.lnatit.retrorain.RetroRain;
 import com.lnatit.retrorain.particle.ParticleRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.ParticleStatus;
@@ -75,7 +73,7 @@ public class RainManager
     }
 
     public float getRainSpeedMag() {
-        return isRetro() ? -0.8f : 1.0f;
+        return isRetro() ? 0.8f : 1.0f;
     }
 
     public float getGndAlpha() {

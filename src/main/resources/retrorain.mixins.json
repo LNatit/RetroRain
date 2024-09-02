@@ -4,6 +4,12 @@
     "package": "com.lnatit.retrorain.mixin",
     "compatibilityLevel": "JAVA_17",
     "refmap": "retrorain.refmap.json",
+    "mixins": [
+        "common.RetroRainMixinLevel"
+    ],
+    "server": [
+        "server.RetroRainMixinServerLevel"
+    ],
     "client": [
         "client.RetroRainMixinLevel",
         "client.RetroRainMixinLevelRenderer"
