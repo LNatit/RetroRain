@@ -50,7 +50,7 @@ public class RetroRainMixinLevelRenderer
             @Share("yMax") LocalFloatRef yMax,
             @Share("yMin") LocalFloatRef yMin
     ) {
-        if (!RetroRain.RetroRainClient.rainManager.isRetro()) {
+        if (!RetroRain.RetroRainClient.rainManager.shouldRetro()) {
             return;
         }
         yMax.set(args.get(1));
@@ -68,7 +68,7 @@ public class RetroRainMixinLevelRenderer
             )
     )
     private void retrorainRedirect$setUv1(Args args, @Share("yMin") LocalFloatRef yMin) {
-        if (!RetroRain.RetroRainClient.rainManager.isRetro()) {
+        if (!RetroRain.RetroRainClient.rainManager.shouldRetro()) {
             return;
         }
         args.set(0, 0.0f);
@@ -121,7 +121,7 @@ public class RetroRainMixinLevelRenderer
             )
     )
     private void retrorainRedirect$setUv2(Args args, @Share("yMax") LocalFloatRef yMax) {
-        if (!RetroRain.RetroRainClient.rainManager.isRetro()) {
+        if (!RetroRain.RetroRainClient.rainManager.shouldRetro()) {
             return;
         }
         args.set(0, 0.0f);
@@ -137,7 +137,7 @@ public class RetroRainMixinLevelRenderer
             )
     )
     private void retrorainRedirect$setUv3(Args args, @Share("yMax") LocalFloatRef yMax) {
-        if (!RetroRain.RetroRainClient.rainManager.isRetro()) {
+        if (!RetroRain.RetroRainClient.rainManager.shouldRetro()) {
             return;
         }
         args.set(0, 1.0f);

@@ -15,5 +15,6 @@ public class CommandRegistry
     public static void onCommandRegister(RegisterCommandsEvent event) {
         CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
         RetroCommand.register(dispatcher);
+        NephoCommand.register(dispatcher);
     }
 }

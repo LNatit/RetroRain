@@ -1,10 +1,12 @@
 package com.lnatit.retrorain.network;
 
+import com.lnatit.retrorain.RetroRain;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 import static com.lnatit.retrorain.RetroRain.MOD_ID;
 
@@ -23,5 +25,9 @@ public record PhaseUpdatePacket(boolean raining, boolean retro) implements Custo
     @Override
     public Type<? extends CustomPacketPayload> type() {
         return TYPE;
+    }
+
+    public static void handle(PhaseUpdatePacket payload, IPayloadContext context) {
+        RetroRain.RetroRainClient.rainManager.setRaining(payload.raining(), payload.retro());
     }
 }

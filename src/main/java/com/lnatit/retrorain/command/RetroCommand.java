@@ -34,13 +34,11 @@ public class RetroCommand
         );
     }
 
-    private static int executeBuiltin(CommandContext<CommandSourceStack> context, boolean raining, boolean retro) throws CommandSyntaxException {
+    private static int executeBuiltin(CommandContext<CommandSourceStack> ctx, boolean raining, boolean retro) throws CommandSyntaxException {
         PacketDistributor.sendToPlayer(
-                context.getSource().getPlayer(),
+                ctx.getSource().getPlayer(),
                 new PhaseUpdatePacket(raining, retro)
         );
         return 0;
-
-
     }
 }

@@ -1,5 +1,7 @@
 package com.lnatit.retrorain.content;
 
+import com.lnatit.retrorain.data.CellPos;
+import com.lnatit.retrorain.data.Nepho;
 import com.lnatit.retrorain.particle.ParticleRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.ParticleStatus;
@@ -24,6 +26,20 @@ public class RainManager
         }
     }
 
+    public boolean raining() {
+        if (Minecraft.getInstance().player != null && Minecraft.getInstance().level != null) {
+            return Nepho.getCell(Minecraft.getInstance().level, new CellPos(Minecraft.getInstance().player.getOnPos())) != Nepho.Type.CLEAR;
+        }
+        return raining;
+    }
+
+    public boolean retro() {
+        if (Minecraft.getInstance().player != null && Minecraft.getInstance().level != null) {
+            return Nepho.getCell(Minecraft.getInstance().level, new CellPos(Minecraft.getInstance().player.getOnPos())) == Nepho.Type.RAIN;
+        }
+        return retro;
+    }
+
     private boolean raining = false;
     private boolean retro = false;
     private int retroLevel = 100;
@@ -43,7 +59,7 @@ public class RainManager
     public void tick() {
         // I think it makes no sense to record the last rain level
         // and use it for interpolate partial ticks
-        if (this.raining) {
+        if (this.raining()) {
             this.rainLevel += 0.01f;
         }
         else {
@@ -51,7 +67,7 @@ public class RainManager
         }
         this.rainLevel = Mth.clamp(this.rainLevel, 0.0f, 1.0f);
 
-        if (!this.retro) {
+        if (!this.retro()) {
             this.retroLevel += 1;
         }
         else {
@@ -68,16 +84,16 @@ public class RainManager
         return ALPHA_INTERPOLATE[retroLevel];
     }
 
-    public boolean isRetro() {
+    public boolean shouldRetro() {
         return this.retroLevel < 50;
     }
 
     public float getRainSpeedMag() {
-        return isRetro() ? 0.8f : 1.0f;
+        return shouldRetro() ? 0.8f : 1.0f;
     }
 
     public float getGndAlpha() {
-        return isRetro() ? 0.0f : 1.0f;
+        return shouldRetro() ? 0.0f : 1.0f;
     }
 
     public float getInterpolatedRainGravity() {
