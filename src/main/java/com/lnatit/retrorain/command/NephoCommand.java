@@ -9,6 +9,8 @@ import com.mojang.brigadier.tree.LiteralCommandNode;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 
 public class NephoCommand
@@ -61,9 +63,9 @@ public class NephoCommand
     }
 
     private static int setCellNepho(Nepho.Type type, CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
-        Level level = ctx.getSource().getLevel();
-        BlockPos pos = BlockPos.containing(ctx.getSource().getPosition());
-        Nepho.setCell(level, new CellPos(pos), type);
+        ServerLevel level = ctx.getSource().getLevel();
+        CellPos cellPos = new CellPos(BlockPos.containing(ctx.getSource().getPosition()));
+        Nepho.setCell(level, cellPos, type);
         return 0;
     }
 }

@@ -35,7 +35,7 @@ public class RainManager
 
     public boolean retro() {
         if (Minecraft.getInstance().player != null && Minecraft.getInstance().level != null) {
-            return Nepho.getCell(Minecraft.getInstance().level, new CellPos(Minecraft.getInstance().player.getOnPos())) == Nepho.Type.RAIN;
+            return Nepho.getCell(Minecraft.getInstance().level, new CellPos(Minecraft.getInstance().player.getOnPos())) == Nepho.Type.RETRO;
         }
         return retro;
     }
