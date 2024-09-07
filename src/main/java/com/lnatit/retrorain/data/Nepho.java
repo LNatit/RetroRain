@@ -6,7 +6,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.network.protocol.common.ClientboundCustomPayloadPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.StringRepresentable;
@@ -16,30 +15,28 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 import static com.lnatit.retrorain.RetroRain.LOGGER;
 
-public record Nepho(List<Type> map)
+public record Nepho(ArrayList<Type> map)
 {
-    public static final Codec<Nepho> CODEC = ImmutableNepho.CODEC.xmap(ImmutableNepho::toMutable, Nepho::toImmutable);
+    public static final Codec<Nepho> CODEC = RecordCodecBuilder.create(ins -> ins.group(
+            Type.CODEC.listOf().fieldOf("map").xmap(ArrayList::new, Function.identity()).forGetter(Nepho::map)
+    ).apply(ins, Nepho::new));
 
     public static final Supplier<Nepho> DEFAULT = () -> new Nepho(
-            Arrays.asList(Type.CLEAR, Type.CLEAR, Type.CLEAR, Type.CLEAR,
+            new ArrayList<>(Arrays.asList(Type.CLEAR, Type.CLEAR, Type.CLEAR, Type.CLEAR,
                           Type.CLEAR, Type.CLEAR, Type.CLEAR, Type.CLEAR,
                           Type.CLEAR, Type.CLEAR, Type.CLEAR, Type.CLEAR,
                           Type.CLEAR, Type.CLEAR, Type.CLEAR, Type.CLEAR
-            ));
+            )));
     public static final StreamCodec<ByteBuf, Nepho> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.collection(ArrayList::new, Type.STREAM_CODEC),
             Nepho::map,
             Nepho::new
     );
-
-    private ImmutableNepho toImmutable() {
-        return new ImmutableNepho(map);
-    }
 
     private Type getCell(int x, int y) {
         return map.get(x + 4 * y);
@@ -70,16 +67,6 @@ public record Nepho(List<Type> map)
             for (ServerPlayer player : level.getChunkSource().chunkMap.getPlayers(chunk.getPos(), false)) {
                 player.connection.send(new ChunkNephoPacket(data, pos.getChunkX(), pos.getChunkZ()));
             }
-        }
-    }
-
-    record ImmutableNepho(List<Type> map) {
-        public static final Codec<ImmutableNepho> CODEC = RecordCodecBuilder.create(ins -> ins.group(
-                Type.CODEC.listOf().fieldOf("map").forGetter(ImmutableNepho::map)
-        ).apply(ins, ImmutableNepho::new));
-
-        private Nepho toMutable() {
-            return new Nepho(new ArrayList<>(map));
         }
     }
 
