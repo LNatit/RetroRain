@@ -15,7 +15,6 @@ import net.neoforged.neoforge.network.handling.DirectionalPayloadHandler;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.neoforged.neoforge.network.handling.ServerPayloadContext;
 
-import static com.lnatit.retrorain.RetroRain.LOGGER;
 import static com.lnatit.retrorain.RetroRain.MOD_ID;
 
 public record ChunkNephoPacket(Nepho data, int chunkX, int chunkZ) implements CustomPacketPayload {
@@ -44,7 +43,7 @@ public record ChunkNephoPacket(Nepho data, int chunkX, int chunkZ) implements Cu
 
     public static void clientHandle(ChunkNephoPacket payload, IPayloadContext context) {
         if (Minecraft.getInstance().level != null) {
-            LOGGER.info("Client Synced!");
+//            LOGGER.info("Client Synced!");
             Minecraft.getInstance().level.getChunk(payload.chunkX(),
                     payload.chunkZ()
             ).setData(DataRegistry.NEPHO, payload.data());
