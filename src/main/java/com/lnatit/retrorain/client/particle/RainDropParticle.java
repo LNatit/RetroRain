@@ -1,4 +1,4 @@
-package com.lnatit.retrorain.particle;
+package com.lnatit.retrorain.client.particle;
 
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;

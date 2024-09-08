@@ -13,9 +13,9 @@ public class RetroRainMixinLevel
     @ModifyReturnValue(method = "getRainLevel", at = @At("RETURN"))
     private float retrorainInject$getRainLevel(float original) {
         original = Math.max(original, RetroRain.RetroRainClient.rainManager.getRainLevel());
-        if (Minecraft.getInstance().cameraEntity != null) {
-            return Minecraft.getInstance().cameraEntity.getY() <= 196 ? original : 0.0f;
-        }
+//        if (Minecraft.getInstance().cameraEntity != null) {
+//            return Minecraft.getInstance().cameraEntity.getY() <= 196 ? original : 0.0f;
+//        }
         return original;
     }
 }

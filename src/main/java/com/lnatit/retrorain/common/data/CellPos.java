@@ -1,6 +1,7 @@
-package com.lnatit.retrorain.data;
+package com.lnatit.retrorain.common.data;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.ChunkPos;
 
 // TODO override hashCode() & equals()
 public class CellPos
@@ -16,6 +17,10 @@ public class CellPos
     public CellPos(BlockPos pos) {
         this.x = pos.getX() >> 2;
         this.z = pos.getZ() >> 2;
+    }
+
+    public CellPos offset(int x, int z) {
+        return new CellPos(this.x + x, this.z + z);
     }
 
     public int getX() {
@@ -48,5 +53,9 @@ public class CellPos
 
     public int getLocalZ() {
         return z & 3;
+    }
+
+    public static CellPos chunkOrigin(ChunkPos chunkPos) {
+        return new CellPos(chunkPos.x << 2, chunkPos.z << 2);
     }
 }

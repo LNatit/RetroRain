@@ -1,4 +1,4 @@
-package com.lnatit.retrorain.network;
+package com.lnatit.retrorain.common.network;
 
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -20,10 +20,10 @@ public class NetworkRegistry
                          PhaseUpdatePacket.STREAM_CODEC,
                          PhaseUpdatePacket::handle
                  )
-                 .playToClient(
+                 .commonBidirectional(
                          ChunkNephoPacket.TYPE,
                          ChunkNephoPacket.STREAM_CODEC,
-                         ChunkNephoPacket::handle
+                         ChunkNephoPacket.HANDLER
                  );
     }
 }

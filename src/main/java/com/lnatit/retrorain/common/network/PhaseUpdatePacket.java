@@ -1,4 +1,4 @@
-package com.lnatit.retrorain.network;
+package com.lnatit.retrorain.common.network;
 
 import com.lnatit.retrorain.RetroRain;
 import io.netty.buffer.ByteBuf;

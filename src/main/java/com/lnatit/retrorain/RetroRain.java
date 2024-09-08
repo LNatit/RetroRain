@@ -1,12 +1,17 @@
 package com.lnatit.retrorain;
 
-import com.lnatit.retrorain.content.RainManager;
-import com.lnatit.retrorain.data.DataRegistry;
-import com.lnatit.retrorain.particle.ParticleRegistry;
-import com.lnatit.retrorain.particle.RainDropParticle;
-import com.lnatit.retrorain.particle.RainParticle;
+import com.lnatit.retrorain.client.content.RainManager;
+import com.lnatit.retrorain.client.screen.NephogramScreen;
+import com.lnatit.retrorain.common.data.DataRegistry;
+import com.lnatit.retrorain.client.particle.ParticleRegistry;
+import com.lnatit.retrorain.client.particle.RainDropParticle;
+import com.lnatit.retrorain.client.particle.RainParticle;
+import com.lnatit.retrorain.common.item.ItemRegistry;
 import com.mojang.logging.LogUtils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
@@ -22,6 +27,7 @@ public class RetroRain
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public RetroRain(IEventBus modBus) {
+        ItemRegistry.ITEMS.register(modBus);
         DataRegistry.DATA_TYPES.register(modBus);
     }
 
@@ -40,6 +46,10 @@ public class RetroRain
         {
             event.registerSpriteSet(ParticleTypes.RAIN, RainParticle.Provider::new);
             event.registerSpriteSet(ParticleRegistry.RAIN_DROP.get(), RainDropParticle.Provider::new);
+        }
+
+        public static void openNephogram(Level level, Player player) {
+            Minecraft.getInstance().setScreen(new NephogramScreen(level, player));
         }
     }
 }

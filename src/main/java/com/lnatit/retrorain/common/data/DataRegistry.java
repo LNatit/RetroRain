@@ -1,6 +1,7 @@
-package com.lnatit.retrorain.data;
+package com.lnatit.retrorain.common.data;
 
-import com.lnatit.retrorain.network.ChunkNephoPacket;
+import com.lnatit.retrorain.common.network.ChunkNephoPacket;
+import com.mojang.serialization.Codec;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -14,7 +15,7 @@ import java.util.function.Supplier;
 
 import static com.lnatit.retrorain.RetroRain.MOD_ID;
 
-@EventBusSubscriber(modid = MOD_ID, value = Dist.DEDICATED_SERVER)
+@EventBusSubscriber(modid = MOD_ID)
 public class DataRegistry
 {
     public static final DeferredRegister<AttachmentType<?>> DATA_TYPES = DeferredRegister.create(
@@ -25,6 +26,12 @@ public class DataRegistry
                     "nepho",
                     () -> AttachmentType.builder(Nepho.DEFAULT).serialize(Nepho.CODEC).build()
             );
+
+//    public static final Supplier<AttachmentType<Integer>> MANA =
+//            DATA_TYPES.register(
+//                    "mana",
+//                    () -> AttachmentType.builder(() -> 0).serialize(Codec.INT).build()
+//            );
 
     @SubscribeEvent
     public static void onChunkSent(ChunkWatchEvent.Sent event){

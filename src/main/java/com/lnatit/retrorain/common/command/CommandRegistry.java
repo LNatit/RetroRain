@@ -1,4 +1,4 @@
-package com.lnatit.retrorain.command;
+package com.lnatit.retrorain.common.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.commands.CommandSourceStack;

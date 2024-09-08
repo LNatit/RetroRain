@@ -1,4 +1,4 @@
-package com.lnatit.retrorain.particle;
+package com.lnatit.retrorain.client.particle;
 
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;

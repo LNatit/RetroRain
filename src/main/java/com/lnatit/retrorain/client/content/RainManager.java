@@ -1,8 +1,8 @@
-package com.lnatit.retrorain.content;
+package com.lnatit.retrorain.client.content;
 
-import com.lnatit.retrorain.data.CellPos;
-import com.lnatit.retrorain.data.Nepho;
-import com.lnatit.retrorain.particle.ParticleRegistry;
+import com.lnatit.retrorain.common.data.CellPos;
+import com.lnatit.retrorain.common.data.Nepho;
+import com.lnatit.retrorain.client.particle.ParticleRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.ParticleStatus;
 import net.minecraft.core.BlockPos;
