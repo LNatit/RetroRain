@@ -100,6 +100,14 @@ public class RainManager
         return Mth.lerp(retroLevel / 100f, -0.04f, 0.06f);
     }
 
+    private float getParticleNumMag() {
+        return Mth.lerp(retroLevel / 100f, 0.6f, 1.0f);
+    }
+
+    private float getRetroParticlePartial() {
+        return this.retro() ? PARTICLE_PARTIALS[retroLevel] : 0.0f;
+    }
+
     public int tickRainDrop(int originalNum, RandomSource randomSource, LevelReader levelReader, BlockPos cameraPos, Minecraft minecraft) {
         float particleNum = (originalNum * this.getParticleNumMag());
         int retroParticles = (int) (particleNum * this.getRetroParticlePartial());
@@ -135,13 +143,5 @@ public class RainManager
         }
 
         return (int) particleNum - retroParticles;
-    }
-
-    private float getParticleNumMag() {
-        return Mth.lerp(retroLevel / 100f, 0.6f, 1.0f);
-    }
-
-    private float getRetroParticlePartial() {
-        return this.retro ? PARTICLE_PARTIALS[retroLevel] : 0.0f;
     }
 }
