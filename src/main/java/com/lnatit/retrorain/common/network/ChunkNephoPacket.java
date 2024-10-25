@@ -8,9 +8,11 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.chunk.LevelChunk;
+import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.DirectionalPayloadHandler;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.neoforged.neoforge.network.handling.ServerPayloadContext;
@@ -32,11 +34,6 @@ public record ChunkNephoPacket(Nepho data, int chunkX, int chunkZ) implements Cu
     public static final DirectionalPayloadHandler<ChunkNephoPacket> HANDLER =
             new DirectionalPayloadHandler<>(ChunkNephoPacket::clientHandle, ChunkNephoPacket::serverHandle);
 
-    @Override
-    public Type<? extends CustomPacketPayload> type() {
-        return TYPE;
-    }
-
     public static ChunkNephoPacket from(LevelChunk chunk, ChunkPos pos) {
         return new ChunkNephoPacket(chunk.getData(DataRegistry.NEPHO), pos.x, pos.z);
     }
@@ -53,8 +50,25 @@ public record ChunkNephoPacket(Nepho data, int chunkX, int chunkZ) implements Cu
     public static void serverHandle(ChunkNephoPacket payload, IPayloadContext context) {
         if (context instanceof ServerPayloadContext serverContext && payload.chunkX < 5 && payload.chunkZ < 5) {
             ServerPlayer player = serverContext.player();
-            ChunkPos pos = player.chunkPosition();
-            player.level().getChunk(pos.x + payload.chunkX - 2, pos.z + payload.chunkZ - 2).setData(DataRegistry.NEPHO, payload.data());
+            if (player.hasPermissions(2)) {
+                ChunkPos pos = player.chunkPosition();
+                ServerLevel level = player.serverLevel();
+                // 我诗人啊？
+                if (pos.distanceSquared(payload.getChunkPos()) < 9)
+                {
+                    level.getChunk(payload.chunkX, payload.chunkZ).setData(DataRegistry.NEPHO, payload.data());
+                    PacketDistributor.sendToPlayersTrackingChunk(level, payload.getChunkPos(), payload);
+                }
+            }
         }
+    }
+
+    @Override
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
+    }
+
+    public ChunkPos getChunkPos() {
+        return new ChunkPos(chunkX, chunkZ);
     }
 }

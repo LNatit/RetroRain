@@ -15,17 +15,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(value = Level.class, priority = 500)
 public class RetroRainMixinLevel {
-//    @ModifyReturnValue(method = "getRainLevel", at = @At("RETURN"))
-//    private float retrorainInject$getRainLevel(float original) {
-//        if (!((Level)(Object) this instanceof ClientLevel))
-//            return original;
-//        original = Math.max(original, RetroRain.RetroRainClient.rainManager.getRainLevel());
-////        if (Minecraft.getInstance().cameraEntity != null) {
-////            return Minecraft.getInstance().cameraEntity.getY() <= 196 ? original : 0.0f;
-////        }
-//        return original;
-//    }
-
     @Shadow
     public float oRainLevel;
 
@@ -35,19 +24,17 @@ public class RetroRainMixinLevel {
     @Inject(method = {"getRainLevel"}, at = {@At("HEAD")}, cancellable = true)
     private void retrorainInject$getRainLevel(float delta, CallbackInfoReturnable<Float> cir) {
         if (((Level) (Object) this instanceof ClientLevel)) {
+            float original = Mth.lerp(delta, this.oRainLevel, this.rainLevel);
+            float newValue = RetroRain.RetroRainClient.rainManager.getRainLevel();
+
             if (Minecraft.getInstance().player != null) {
                 if (
                         Nepho.getCell(
                                 Minecraft.getInstance().level,
                                 new CellPos(Minecraft.getInstance().player.getOnPos())
-                        ) != Nepho.Type.CLEAR
+                        ) != Nepho.Type.CLEAR || original < newValue
                 ) {
-                    cir.setReturnValue(
-                            Math.max(
-                                    Mth.lerp(delta, this.oRainLevel, this.rainLevel),
-                                    RetroRain.RetroRainClient.rainManager.getRainLevel()
-                            )
-                    );
+                    cir.setReturnValue(Math.max(original, newValue));
                 }
             }
         }

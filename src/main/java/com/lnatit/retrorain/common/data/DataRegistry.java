@@ -1,8 +1,6 @@
 package com.lnatit.retrorain.common.data;
 
 import com.lnatit.retrorain.common.network.ChunkNephoPacket;
-import com.mojang.serialization.Codec;
-import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.attachment.AttachmentType;
@@ -26,12 +24,6 @@ public class DataRegistry
                     "nepho",
                     () -> AttachmentType.builder(Nepho.DEFAULT).serialize(Nepho.CODEC).build()
             );
-
-//    public static final Supplier<AttachmentType<Integer>> MANA =
-//            DATA_TYPES.register(
-//                    "mana",
-//                    () -> AttachmentType.builder(() -> 0).serialize(Codec.INT).build()
-//            );
 
     @SubscribeEvent
     public static void onChunkSent(ChunkWatchEvent.Sent event){
