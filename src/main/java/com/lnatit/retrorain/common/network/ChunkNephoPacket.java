@@ -48,7 +48,9 @@ public record ChunkNephoPacket(Nepho data, int chunkX, int chunkZ) implements Cu
     }
 
     public static void serverHandle(ChunkNephoPacket payload, IPayloadContext context) {
-        if (context instanceof ServerPayloadContext serverContext && payload.chunkX < 5 && payload.chunkZ < 5) {
+        // tmd
+//        boolean flag = payload.chunkX < 5 && payload.chunkZ < 5;
+        if (context instanceof ServerPayloadContext serverContext) {
             ServerPlayer player = serverContext.player();
             if (player.hasPermissions(2)) {
                 ChunkPos pos = player.chunkPosition();
