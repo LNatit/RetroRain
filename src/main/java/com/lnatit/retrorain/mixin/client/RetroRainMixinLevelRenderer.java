@@ -1,9 +1,13 @@
 package com.lnatit.retrorain.mixin.client;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalFloatRef;
 import com.lnatit.retrorain.RetroRain;
+import com.lnatit.retrorain.common.data.CellPos;
+import com.lnatit.retrorain.common.data.Nepho;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.LightTexture;
@@ -11,10 +15,14 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.biome.Biome;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArgs;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
@@ -24,6 +32,28 @@ public class RetroRainMixinLevelRenderer
     @Shadow
     @Final
     private Minecraft minecraft;
+
+    @WrapOperation(
+            method = {"tickRain", "renderSnowAndRain"},
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/level/biome/Biome;getPrecipitationAt(Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/level/biome/Biome$Precipitation;"
+            )
+    )
+    private Biome.Precipitation retrorainWarp$getPrecipitationAt(Biome biome, BlockPos pos, Operation<Biome.Precipitation> original) {
+        if (minecraft.player != null) {
+            if (
+                    Nepho.getCell(
+                            minecraft.level,
+                            new CellPos(Minecraft.getInstance().player.getOnPos())
+                    ) != Nepho.Type.CLEAR
+            ) {
+                // compatibility with eclipticseasons
+                return biome.getPrecipitationAt(pos);
+            }
+        }
+        return original.call(biome, pos);
+    }
 
     @ModifyVariable(method = "renderSnowAndRain", at = @At("STORE"), ordinal = 3)
     private float retrorainModify$rainSpeed$rainAlpha(
