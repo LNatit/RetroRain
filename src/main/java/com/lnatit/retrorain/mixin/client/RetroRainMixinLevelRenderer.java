@@ -26,7 +26,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
-@Mixin(value = LevelRenderer.class, priority = 900)
+@Mixin(value = LevelRenderer.class, priority = 1100)
 public class RetroRainMixinLevelRenderer
 {
     @Shadow
