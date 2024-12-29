@@ -11,11 +11,13 @@ import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import org.slf4j.Logger;
 
 import static com.lnatit.retrorain.RetroRain.MOD_ID;
@@ -29,6 +31,13 @@ public class RetroRain
     public RetroRain(IEventBus modBus) {
         ItemRegistry.ITEMS.register(modBus);
         DataRegistry.DATA_TYPES.register(modBus);
+        modBus.addListener(this::addCreative);
+    }
+
+    private void addCreative(BuildCreativeModeTabContentsEvent event)
+    {
+        if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES)
+            event.accept(ItemRegistry.NEPHOGRAM);
     }
 
     @Mod(value = MOD_ID, dist = Dist.CLIENT)

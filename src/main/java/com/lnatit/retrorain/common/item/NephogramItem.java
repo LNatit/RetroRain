@@ -16,6 +16,8 @@ public class NephogramItem extends Item {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
+        if (!player.isCreative())
+            return InteractionResultHolder.pass(player.getItemInHand(usedHand));
         if (level.isClientSide()) {
             RetroRain.RetroRainClient.openNephogram(level, player);
         }

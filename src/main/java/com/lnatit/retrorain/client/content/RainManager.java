@@ -42,6 +42,7 @@ public class RainManager
 
     private boolean raining = false;
     private boolean retro = false;
+
     private int retroLevel = 100;
 
     private float rainLevel = 0.0f;
